@@ -2,14 +2,16 @@ import { useEffect, useState } from "react"
 import { AddBox } from "../components/AddBox"
 import { ImagesContener } from "./ImagesContener"
 import { MyModal } from "../components/MyModel";
-import { FaRegImage } from 'react-icons/fa'
+import { FaPlus, FaRegImage } from 'react-icons/fa'
 import { ImagCompressor } from "../utils/ImagCompressor";
 import { useDispatch, useSelector } from "react-redux";
 import { Img } from "../utils/Img";
 
 export const ImagesContent=()=>{
+    const [imagesNumber,setImagesNumber]=useState(null);
     const [openModal,setOpenModal]=useState(false);
     const [image,setImage]=useState(null);
+    const [discrption,setDiscrption]=useState('');
     const [hover, setHover] = useState(false);
     const dispatch=useDispatch();
     const images=useSelector(state=>state?.images);
@@ -30,9 +32,17 @@ export const ImagesContent=()=>{
         })
     }
 
+    useEffect(()=>{
+       setImagesNumber(images?.length); 
+    },[]);
 
     useEffect(()=>{
-        images?.length?toggleModal():<></>;
+        if(images?.length>imagesNumber){
+            toggleModal();
+           
+        }
+        setDiscrption('');
+        setImagesNumber(images?.length); 
     },[images]);
 
     const ModalContent=<div style={{height:'200px',width:'200px',margin:'auto',position:'relative'}}>
@@ -51,7 +61,7 @@ export const ImagesContent=()=>{
                     <FaRegImage
                         size={40}
                     />
-                    <span style={{ display: 'block', fontSize: '12px' }}>Site Logo Ekle</span>
+                    <span style={{ display: 'block', fontSize: '12px' }}>Add Image</span>
                 </label>
             </div> :
             <div
@@ -66,14 +76,16 @@ export const ImagesContent=()=>{
                             <label style={{ textAlign: 'center', cursor: 'pointer', color: "#fff" }} htmlFor="upload" >
                                 <FaRegImage
                                     size={40}
-
                                 />
-                                <span style={{ display: 'block', fontSize: '12px' }}> Site Logo Değiştir</span>
+                                <span style={{ display: 'block', fontSize: '12px' }}> Change Image</span>
                             </label>
                         </div>
                     </Img>
                 }
         </div>}
+
+
+      
     </div>
 
 
@@ -82,30 +94,35 @@ export const ImagesContent=()=>{
             isOpen={openModal}
             toggle={toggleModal}
             title="Add Image"
-        >   
-            {ModalContent}
-            <AddBox 
+            modalFooter={ <AddBox  
                 disabled={!image?.length}
                 onClick={()=>{
                     dispatch({
                         type:'ADD_IMG',
-                        payload:image?.length?image[0]:null      
+                        payload:{image:image?.length?image[0]:null,discrption:discrption}      
                     });
                 }}
                 style={{width:'100px',height:'50px'}}
 
+            />}
+        >   
+            {ModalContent}
+            <textarea onChange={(e)=>setDiscrption(e?.target?.value)} style={{width:'100%',height:'200px',resize:'none',marginTop:'10px',padding:'10px',textAlign:'justify',borderRadius:'10px'}} placeholder="discrption..." >
 
-            />
+            </textarea>
         </MyModal>
 
+        <div className="add-button">
+            <AddBox onClick={handleClick}>
+                <FaPlus size={30}/>
+            </AddBox>
+        </div>
         <div style={{width:'100%',height:'100%',display:'flex'}}>
-            <div style={{width:'80%',display:'flex',justifyContent:'center',alignItems:'center'}}>
+            <div style={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
                 <ImagesContener/>
             </div>
-            <div style={{width:'20%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                <AddBox onClick={handleClick}/>
-            </div>
         </div>
+        
     </>);
 }
 

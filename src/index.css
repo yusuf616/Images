@@ -12,3 +12,18 @@
     justify-content: center;
     align-items: center;
 }
+
+.add-button{
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    border-radius: 50%;
+    overflow: hidden;
+    border:1px solid #ddd;
+    transform: translate(-50%,-10px);
+}
+
+::-webkit-scrollbar{
+    width: 2px;
+    height: 2px;
+}

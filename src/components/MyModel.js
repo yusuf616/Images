@@ -1,11 +1,12 @@
-import { Modal ,ModalBody,ModalHeader } from "reactstrap";
+import { Modal ,ModalBody,ModalFooter,ModalHeader } from "reactstrap";
 
 
 export const MyModal=({
     isOpen=false,
     toggle =()=>{},
     title='title',
-    children
+    children,
+    modalFooter=<></>
 })=>{
     return(<Modal
         isOpen={isOpen}
@@ -17,5 +18,8 @@ export const MyModal=({
         <ModalBody>
             {children}
         </ModalBody>
+        <ModalFooter>
+            {modalFooter}
+        </ModalFooter>
     </Modal>)
 }
