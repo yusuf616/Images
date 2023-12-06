@@ -5,6 +5,7 @@ export const Img = ({
     children
 }) => {
     let url = null;
+    console.log(imageFile);
     if (imageFile && typeof (imageFile) === 'object')
         url = URL.createObjectURL(imageFile);
 

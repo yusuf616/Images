@@ -3,8 +3,11 @@ import { ImageBox } from "../components/ImageBox";
 import { useState } from "react";
 import { Img } from "../utils/Img";
 import { FaTimes } from "react-icons/fa";
+import { AddBox } from "../components/AddBox";
 
-export const ImagesContener=()=>{
+export const ImagesContener=({
+    addBox=<></>
+})=>{
     const Images =useSelector(state=>state?.images);
     const [show,setShow]=useState(false);
     console.log(show);
@@ -18,11 +21,13 @@ export const ImagesContener=()=>{
             borderRadius:15,
             padding:'15px'
         }}
+        
     >
         {Images.map((i,index)=><div className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 col-xxl-2 my-1" key={index}>
             <ImageBox style={{width:'100%'}}  item={i} onClick={()=>setShow(i)}   />
         </div>)}
-        {show?<div  style={{position:'fixed',top:'0px',left:0,width:'100%',height:'100%',backgroundColor:'#3333',display:'flex',justifyContent:'center',alignItems:'center'}}>
+        {addBox}
+        {show?<div  style={{position:'fixed',top:'0px',left:0,width:'100%',height:'100%',backgroundColor:'#3333',display:'flex',justifyContent:'center',alignItems:'center',zIndex:1000}}>
             <FaTimes size={30} style={{position:'absolute',top:10,right:10,cursor:'pointer'}} color="#f00" onClick={()=>setShow(false)} />
             <div style={{position:'relative',display:'flex',justifyContent:'center',alignItems:'center',width:'80%',height:'80%'}}>
                 <Img

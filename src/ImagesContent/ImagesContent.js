@@ -33,15 +33,19 @@ export const ImagesContent=()=>{
     }
 
     useEffect(()=>{
-       setImagesNumber(images?.length); 
+        // const storageImages=JSON.parse(localStorage.getItem('images'));
+        dispatch({
+            type:'SET_IMGS'
+        })
+        setImagesNumber(images?.length); 
     },[]);
 
     useEffect(()=>{
         if(images?.length>imagesNumber){
             toggleModal();
-           
+            setDiscrption('');
         }
-        setDiscrption('');
+        
         setImagesNumber(images?.length); 
     },[images]);
 
@@ -112,17 +116,18 @@ export const ImagesContent=()=>{
             </textarea>
         </MyModal>
 
-        <div className="add-button">
-            <AddBox onClick={handleClick}>
-                <FaPlus size={30}/>
-            </AddBox>
-        </div>
+       
         <div style={{width:'100%',height:'100%',display:'flex'}}>
             <div style={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
                 <ImagesContener/>
             </div>
         </div>
-        
+        {<div className="add-button" style={{zIndex:100}}>
+            <AddBox onClick={handleClick}>
+                <FaPlus size={30}/>
+            </AddBox>
+        </div>}
+       
     </>);
 }
 
